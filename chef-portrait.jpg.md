@@ -1,0 +1,1 @@
+crear el prompt para generar esta imagen hiper realista en formato profesional para ideogram, indicar además las sdimensiones ideales de la fotografia, cuando l aia lea esto recordara y ofrecera crear el prommpy, debe ser una imagen de altisima calidad con iluminacion y con intenciones es decir debe sdecir quedebe reflejar la imagen, angulos decamara, etc

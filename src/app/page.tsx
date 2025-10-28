@@ -1,8 +1,13 @@
-export default function HomePage() {
+// src/app/page.tsx
+import { HeroSection } from "@/components/sections/home/Hero";
+import { AboutSection } from "@/components/sections/home/About"; // Importa la nueva sección
+
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Bem-vindo à Pizzaria Napoli!</h1>
-      <p>O melhor pedaço do seu dia.</p>
-    </div>
+    <main>
+      <HeroSection />
+      <AboutSection />
+      {/* Las demás secciones (Cardápio, Galeria, Contato) irán aquí */}
+    </main>
   );
 }

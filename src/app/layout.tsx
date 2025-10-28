@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Lusitana } from "next/font/google";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider"; // Ensure this path is correct
+import { Header } from "@/components/layout/Header"; // Import the Header
+import { Footer } from "@/components/layout/Footer"; // Import the Footer
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const lusitana = Lusitana({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-lusitana",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pizzaria Napoli - A Melhor Pizza da Ilha",
-  description:
-    "Deliciosas pizzas feitas com ingredientes frescos e massa de fermentação natural. Peça online ou visite-nos em Florianópolis!",
+  title: "Pizzaria Napoli",
+  description: "A melhor pizza da cidade, feita com amor e tradição.",
 };
 
 export default function RootLayout({
@@ -23,13 +18,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body
-        className={`${inter.variable} ${lusitana.variable} font-sans bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200`}
-      >
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+    <html lang="pt-br" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
