@@ -1,67 +1,26 @@
 import globals from "globals";
+import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 import nextPlugin from "@next/eslint-plugin-next";
-import eslintConfigPrettier from "eslint-config-prettier";
+import prettierConfig from "eslint-config-prettier";
 
-export default tseslint.config(
-  // Global ignores
-  {
-    ignores: [
-      ".next/",
-      "node_modules/",
-      "out/",
-      "dist/",
-      ".vercel/",
-      "**/*.config.js",
-      "**/*.config.mjs",
-      "postcss.config.js",
-    ],
-  },
-
-  // Base configurations
+export default [
+  // Global configurations
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    ...tseslint.configs.base,
-    languageOptions: {
-      ...tseslint.configs.base.languageOptions,
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-    rules: {
-      ...tseslint.configs.base.rules,
-    },
-  },
-
-  // TypeScript specific configurations
-  ...tseslint.configs.strict,
-  ...tseslint.configs.stylistic,
-
-  // React specific configurations
-  {
-    files: ["**/*.{ts,tsx}"], // Target TypeScript and TSX files
-    plugins: {
-      react: pluginReact,
-      "react-hooks": pluginReactHooks,
-      "jsx-a11y": pluginJsxA11y,
-    },
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
       },
-    },
-    rules: {
-      ...pluginReact.configs.recommended.rules,
-      ...pluginReactHooks.configs.recommended.rules,
-      ...pluginJsxA11y.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // Not needed with Next.js 17+
-      "react/prop-types": "off", // Not needed with TypeScript
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     settings: {
       react: {
@@ -70,9 +29,33 @@ export default tseslint.config(
     },
   },
 
+  // Base ESLint recommended rules
+  pluginJs.configs.recommended,
+
+  // TypeScript configurations
+  ...tseslint.configs.recommended,
+
+  // React specific configurations
+  {
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    plugins: {
+      react: pluginReact,
+      "react-hooks": pluginReactHooks,
+      "jsx-a11y": pluginJsxA11y,
+    },
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      ...pluginReactHooks.configs.recommended.rules,
+      ...pluginJsxA11y.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off", // Not needed with Next.js 17+
+      "react/prop-types": "off", // Not needed with TypeScript
+      "react-hooks/exhaustive-deps": "off", // Turned off as requested for now
+    },
+  },
+
   // Next.js specific configuration
   {
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       "@next/next": nextPlugin,
     },
@@ -82,6 +65,19 @@ export default tseslint.config(
     },
   },
 
-  // Final config to disable formatting rules that conflict with Prettier
-  eslintConfigPrettier,
-);
+  // Prettier config to disable conflicting rules
+  prettierConfig,
+
+  // Ignore files
+  {
+    ignores: [
+        ".next/",
+        "node_modules/",
+        "out/",
+        "dist/",
+        ".vercel/",
+        "**/*.config.js",
+        "**/*.config.mjs"
+    ],
+  },
+];

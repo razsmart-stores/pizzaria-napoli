@@ -168,3 +168,6 @@ export function Header() {
     </header>
   );
 }
+
+// Ensure you have a default export
+export default Header;

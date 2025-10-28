@@ -1,2 +1,2 @@
-// Opcional: importa matchers adicionales de jest-dom
+// jest.setup.ts
 import '@testing-library/jest-dom';
