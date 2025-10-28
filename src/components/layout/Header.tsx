@@ -1,10 +1,10 @@
-'use client'; // <-- ADD THIS LINE AT THE VERY TOP
+"use client";
 
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Menu, X, Sun, Moon } from "lucide-react"; // Make sure Sun and Moon are imported
+import { Menu, X, Sun, Moon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IMAGES } from "@/lib/images";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 // --- ThemeToggle Component ---
-// This component also needs to be a client component because it uses useTheme.
-// By placing it in the same file as Header, which is now a client component,
-// it will also be treated as part of the client bundle.
 export function ThemeToggle() {
   const { setTheme } = useTheme();
 
@@ -58,15 +56,18 @@ const navLinks = [
 // --- Header Component ---
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { theme } = useTheme();
-  // State to manage the logo source and avoid hydration mismatch
-  const [logoSrc, setLogoSrc] = React.useState(IMAGES.logo.dark);
+  const { resolvedTheme } = useTheme();
+  const isMounted = useIsMounted();
 
-  React.useEffect(() => {
-    // This effect runs only on the client, safely updating the logo based on the theme
-    setLogoSrc(theme === "dark" || (theme === "system" && window.matchMedia('(prefers-color-scheme: dark)').matches) ? IMAGES.logo.light : IMAGES.logo.dark);
-  }, [theme]);
+  // If the component is not yet mounted, render a placeholder or nothing
+  // to avoid a hydration mismatch between the server and client.
+  if (!isMounted) {
+    return (
+      <header className="fixed top-0 left-0 w-full bg-background/80 h-16 z-50 shadow-md" aria-hidden="true" />
+    );
+  }
 
+  const logoSrc = resolvedTheme === 'dark' ? IMAGES.logo.light : IMAGES.logo.dark;
 
   return (
     <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm z-50 shadow-md">
@@ -82,7 +83,7 @@ export function Header() {
           />
         </Link>
 
-        {/* Navegación para pantallas grandes */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map((link) => (
             <a
@@ -95,14 +96,14 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Acciones del lado derecho */}
+        {/* Right-side Actions */}
         <div className="flex items-center space-x-2">
           <Button
             asChild
             className="bg-red-600 hover:bg-red-700 text-white font-bold hidden sm:inline-flex"
           >
             <a
-              href="https://www.ifood.com.br/" // Reemplazar con el enlace real
+              href="https://www.ifood.com.br/" // Replace with the actual order link
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -112,7 +113,7 @@ export function Header() {
 
           <ThemeToggle />
 
-          {/* Botón de Menú Hamburguesa para móviles */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -131,7 +132,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Menú Desplegable para Móviles */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
@@ -140,7 +141,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className="block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
-                onClick={() => setIsMenuOpen(false)} // Cierra el menú al hacer clic
+                onClick={() => setIsMenuOpen(false)} // Close the menu on click
               >
                 {link.label}
               </a>
@@ -153,7 +154,7 @@ export function Header() {
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-bold"
               >
                 <a
-                  href="https://www.ifood.com.br/" // Reemplazar con el enlace real
+                  href="https://www.ifood.com.br/" // Replace with the actual order link
                   target="_blank"
                   rel="noopener noreferrer"
                 >

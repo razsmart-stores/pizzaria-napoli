@@ -1,17 +1,29 @@
-// src/components/layout/Footer.tsx
+"use client";
+
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "next-themes"; // We'll use this for the logo
-
-// Import the IMAGES object
+import { useTheme } from "next-themes";
 import { IMAGES } from "@/lib/images";
+import { useIsMounted } from "@/hooks/use-is-mounted"; // <-- Import the new hook
 
 export function Footer() {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const isMounted = useIsMounted(); // <-- Use the hook
 
-  // Determine which logo to use based on the current theme
-  const logoSrc = theme === "dark" ? IMAGES.logo.dark : IMAGES.logo.light;
+  // Wait until the component is mounted to determine the correct logo
+  if (!isMounted) {
+    // Render a placeholder to avoid layout shift while maintaining structure
+    return (
+      <footer className="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto" style={{ minHeight: "206px" }}>
+          {/* Empty or skeleton content */}
+        </div>
+      </footer>
+    );
+  }
+
+  const logoSrc = resolvedTheme === "dark" ? IMAGES.logo.light : IMAGES.logo.dark;
 
   return (
     <footer className="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
@@ -22,9 +34,9 @@ export function Footer() {
             <Image
               src={logoSrc}
               alt="Pizzaria Napoli Logo"
-              width={150}
-              height={50}
-              className="h-10 w-auto" // Control size more effectively
+              width={120}
+              height={40}
+              className="h-10 w-auto"
             />
           </Link>
           <p className="text-sm">
