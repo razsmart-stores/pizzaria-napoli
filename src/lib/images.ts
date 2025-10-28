@@ -2,11 +2,31 @@
 
 export const IMAGES = {
   logo: {
-    light: "/images/logo-dark.svg", // Logo para tema claro
-    dark: "/images/logo-light.svg", // Logo para tema escuro
+    light: "/images/logo-light.svg", // Logo for light mode
+    dark: "/images/logo-dark.svg",   // Logo for dark mode
   },
   hero: {
+    // Keep this for the About section if needed, or remove if unused
     background: "/images/hero/pizza-background.jpg",
+    // Add an array for the carousel slides
+    carousel: [
+      {
+        src: "/images/hero/hero-1.jpg",
+        alt: "Delicious pizza with fresh basil and mozzarella",
+      },
+      {
+        src: "/images/hero/hero-2.jpg",
+        alt: "Close-up of a wood-fired pizza with pepperoni",
+      },
+      {
+        src: "/images/hero/hero-3.jpg",
+        alt: "Family enjoying a meal at Pizzaria Napoli",
+      },
+      {
+        src: "/images/hero/hero-4.jpg",
+        alt: "Artisanal pizza being prepared in the kitchen",
+      },
+    ],
   },
   about: {
     chef: "/images/about/chef-portrait.jpg",
@@ -17,9 +37,8 @@ export const IMAGES = {
     quatroQueijos: "/images/menu/quatro-queijos.jpg",
     portuguesa: "/images/menu/portuguesa.jpg",
     calabresa: "/images/menu/calabresa.jpg",
-    frangoCatupiry: "/images/menu/frango-catupiry.jpg",
-    chocolate: "/images/menu/pizza-doce-chocolate.jpg",
-    bananaCanela: "/images/menu/pizza-doce-banana.jpg",
+    frangoCatupiry: "/images/menu/pizza-doce-chocolate.jpg",
+    chocolate: "/images/menu/pizza-doce-banana.jpg",
   },
   gallery: [
     "/images/gallery/gallery-1.jpg",

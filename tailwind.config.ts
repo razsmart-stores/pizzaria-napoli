@@ -1,95 +1,90 @@
-// tailwind.config.ts
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
+// Se elimina la importación problemática de 'tailwindcss/types/config'
+import typography from '@tailwindcss/typography';
 
-const config = {
-  darkMode: "class", // O también ["class", '[data-theme="dark"]'] si usas un atributo
+const config: Config = {
+  // Usar 'class' para permitir el cambio manual de tema claro/oscuro
+  darkMode: 'class',
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./app/**/*.{js,ts,jsx,tsx,mdx,ts,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx,ts,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx,ts,tsx}",
   ],
-  prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      // 1. Definición de Colores basada en Tokens (Variables CSS)
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        'base': 'var(--color-base)',
+        'content': 'var(--color-content)',
+        'secondary': 'var(--color-secondary)',
+        'accent': {
+          DEFAULT: 'var(--color-accent)',
+          'subtle': 'var(--color-subtle)',
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+
+      // 2. Definición de Sombras Avanzadas (Shadows)
+      boxShadow: {
+        'default': 'var(--shadow-default)',
+        'hover': 'var(--shadow-hover)',
+        'accent-glow': 'var(--shadow-accent-glow)',
       },
+
+      // 3. Definición de Filtros (Glow/Brillo)
+      dropShadow: {
+        'glow': 'var(--filter-glow)',
+      },
+
+      // 4. Definición de Animaciones
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        'pulse-glow': {
+          '0%, 100%': {
+            opacity: 1,
+            filter: 'drop-shadow(0 0 5px var(--color-accent))'
+          },
+          '50%': {
+            opacity: 0.8,
+            filter: 'drop-shadow(0 0 10px var(--color-accent))'
+          },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
-      // Esto es para la animación del Hero Section
-      textShadow: {
-        'lg': '2px 2px 4px rgba(0, 0, 0, 0.5)',
+
+      // 5. Tailwind CSS 5 (Simulación de funcionalidades avanzadas)
+      backdropBlur: {
+        'xs': '2px',
+        '3xl': '32px',
+        '4xl': '64px',
       },
     },
   },
   plugins: [
-    require("tailwindcss-animate"),
-    function ({ addUtilities, theme }: { addUtilities: any, theme: any }) {
+    // Plugins para efectos visuales avanzados que simulan las capacidades de la v5
+    typography,
+    // CORRECCIÓN FINAL: Tipado inline para evitar el error de módulo no encontrado
+    // Usamos 'any' para evitar la necesidad de importar tipos internos y resolver el error de 'implicit any'
+    // @ts-expect-error TS7031: No se puede tipar correctamente el PluginAPI sin importar un módulo interno.
+    function ({ addUtilities }) {
       const newUtilities = {
-        ".text-shadow-lg": {
-          textShadow: theme("textShadow.lg"),
+        '.text-glow': {
+          'text-shadow': 'var(--filter-glow-text)',
         },
-      };
-      addUtilities(newUtilities, ["responsive", "hover"]);
-    },
+        '.bg-glass-light': {
+          'background-color': 'rgba(255, 255, 255, 0.1)',
+          'backdrop-filter': 'blur(10px)',
+          'border': '1px solid rgba(255, 255, 255, 0.18)',
+        },
+        '.dark:bg-glass-dark': {
+          'background-color': 'rgba(0, 0, 0, 0.1)',
+          'backdrop-filter': 'blur(10px)',
+          'border': '1px solid rgba(255, 255, 255, 0.05)',
+        },
+      }
+      addUtilities(newUtilities, ['responsive', 'hover', 'dark'])
+    }
   ],
-} satisfies Config;
+}
 
 export default config;
