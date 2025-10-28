@@ -1,10 +1,10 @@
-"use client";
+'use client'; // <-- ADD THIS LINE AT THE VERY TOP
 
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Menu, X, Moon, Sun } from "lucide-react"; // Importé Moon y Sun aquí
+import { Menu, X, Sun, Moon } from "lucide-react"; // Make sure Sun and Moon are imported
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,9 @@ import {
 import { IMAGES } from "@/lib/images";
 
 // --- ThemeToggle Component ---
+// This component also needs to be a client component because it uses useTheme.
+// By placing it in the same file as Header, which is now a client component,
+// it will also be treated as part of the client bundle.
 export function ThemeToggle() {
   const { setTheme } = useTheme();
 
@@ -56,13 +59,14 @@ const navLinks = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { theme } = useTheme();
-  // Estado para el logo para evitar FOUC (Flash of Unstyled Content) en la carga inicial
-  const [logoSrc, setLogoSrc] = React.useState(IMAGES.logo.dark); // Default a uno para evitar error en el servidor
+  // State to manage the logo source and avoid hydration mismatch
+  const [logoSrc, setLogoSrc] = React.useState(IMAGES.logo.dark);
 
   React.useEffect(() => {
-    // Solo actualizamos el logo en el cliente para que coincida con el tema
-    setLogoSrc(theme === "dark" ? IMAGES.logo.light : IMAGES.logo.dark);
+    // This effect runs only on the client, safely updating the logo based on the theme
+    setLogoSrc(theme === "dark" || (theme === "system" && window.matchMedia('(prefers-color-scheme: dark)').matches) ? IMAGES.logo.light : IMAGES.logo.dark);
   }, [theme]);
+
 
   return (
     <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm z-50 shadow-md">
