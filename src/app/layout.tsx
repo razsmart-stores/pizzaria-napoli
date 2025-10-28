@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Header } from "@/components/layout/Header"; // Import the Header
-import { Footer } from "@/components/layout/Footer"; // Import the Footer
+import { ThemeProvider } from "@/components/theme-provider"; // <-- Ensure this path is correct
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: { // simplified this part for clarity
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <body className={inter.className}>

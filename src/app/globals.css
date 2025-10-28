@@ -2,86 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
- * Archivo: globals.css
- * Descripción: Configuración global de estilos y Design Tokens para temas claro y oscuro.
- * Este archivo define las variables CSS que son referenciadas en tailwind.config.js
- * para lograr el cambio de tema y los efectos visuales avanzados.
- */
+@layer base {
+  :root {
+    /* ====================================================================
+     * 1. TOKENS DE COLOR (Modo Claro por defecto)
+     * ==================================================================== */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 224 71.4% 4.1%; /* #09090b */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 224 71.4% 4.1%; /* #09090b */
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 224 71.4% 4.1%; /* #09090b */
+    --primary: 346.8 77.2% 49.8%; /* #db2777 */
+    --primary-foreground: 355.7 100% 97.3%; /* #fff1f2 */
+    --secondary: 220 13% 91%; /* #e4e4e7 */
+    --secondary-foreground: 225 7.1% 41.2%; /* #646464 */
+    --muted: 220 9.8% 43.9%; /* #64748b */
+    --muted-foreground: 220 8.9% 64.9%; /* #94a3b8 */
+    --accent: 220 14.3% 95.9%; /* #f1f5f9 */
+    --accent-foreground: 222.2 47.4% 11.2%; /* #1e293b */
+    --destructive: 0 84.2% 60.2%; /* #ef4444 */
+    --destructive-foreground: 210 40% 98%; /* #f8fafc */
+    --border: 215 20.2% 65.1%; /* #a1a1aa */
+    --input: 215 20.2% 65.1%; /* #a1a1aa */
+    --ring: 222.2 84% 4.9%; /* #0c0a09 */
+    --radius: 0.5rem;
+  }
 
-:root {
-  /* ====================================================================
-   * 1. TOKENS DE COLOR (Modo Claro por defecto)
-   * ==================================================================== */
-  --color-base: #FFFFFF; /* Fondo principal (Blanco Puro) */
-  --color-content: #1A1A1A; /* Texto principal (Gris Oscuro) */
-  --color-accent: #E31B23; /* Rojo Nápoles (Acento) */
-  --color-secondary: #F5F5F5; /* Fondo secundario (Gris Claro) */
-  --color-subtle: #666666; /* Texto sutil */
-
-  /* ====================================================================
-   * 2. TOKENS DE SOMBRAS (Modo Claro por defecto)
-   * ==================================================================== */
-  /* Sombra estándar: sutil y elevadora */
-  --shadow-default: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-  /* Sombra al pasar el ratón: más prominente */
-  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-  /* Sombra con brillo de acento: para elementos destacados */
-  --shadow-accent-glow: 0 0 15px rgba(227, 27, 35, 0.4), 0 0 30px rgba(227, 27, 35, 0.2);
-
-  /* ====================================================================
-   * 3. TOKENS DE FILTRO/BRILLO (Modo Claro por defecto)
-   * ==================================================================== */
-  /* Filtro de brillo para el acento (drop-shadow para texto/SVG) */
-  --filter-glow: drop-shadow(0 0 5px rgba(227, 27, 35, 0.5));
-  /* Brillo de texto (text-shadow) para el plugin simulado */
-  --filter-glow-text: 0 0 4px rgba(227, 27, 35, 0.8);
+  .dark {
+    /* ====================================================================
+     * CONFIGURACIÓN DE TEMA OSCURO
+     * ==================================================================== */
+    --background: 224 71.4% 4.1%; /* #09090b */
+    --foreground: 210 20% 98%; /* #fafafa */
+    --card: 224 71.4% 4.1%; /* #09090b */
+    --card-foreground: 210 20% 98%; /* #fafafa */
+    --popover: 224 71.4% 4.1%; /* #09090b */
+    --popover-foreground: 210 20% 98%; /* #fafafa */
+    --primary: 346.8 77.2% 49.8%; /* #db2777 */
+    --primary-foreground: 355.7 100% 97.3%; /* #fff1f2 */
+    --secondary: 215 27.9% 16.9%; /* #27272a */
+    --secondary-foreground: 210 20% 98%; /* #fafafa */
+    --muted: 215 27.9% 16.9%; /* #27272a */
+    --muted-foreground: 215 20.2% 65.1%; /* #a1a1aa */
+    --accent: 215 27.9% 16.9%; /* #27272a */
+    --accent-foreground: 210 20% 98%; /* #fafafa */
+    --destructive: 0 62.8% 30.6%; /* #991b1b */
+    --destructive-foreground: 210 20% 98%; /* #fafafa */
+    --border: 215 27.9% 16.9%; /* #27272a */
+    --input: 215 27.9% 16.9%; /* #27272a */
+    --ring: 346.8 77.2% 49.8%; /* #db2777 */
+  }
 }
 
-/*
- * ====================================================================
- * CONFIGURACIÓN DE TEMA OSCURO
- * Se aplica cuando la clase 'dark' está presente en el elemento raíz (e.g., <html>)
- * ====================================================================
- */
-.dark {
-  /* 1. TOKENS DE COLOR (Modo Oscuro) */
-  --color-base: #000000; /* Fondo principal (Negro Puro) */
-  --color-content: #F5F5F5; /* Texto principal (Gris Claro) */
-  --color-accent: #FF333A; /* Rojo Nápoles Brillante (Acento) */
-  --color-secondary: #1A1A1A; /* Fondo secundario (Gris Oscuro) */
-  --color-subtle: #AAAAAA; /* Texto sutil */
-
-  /* 2. TOKENS DE SOMBRAS (Modo Oscuro) */
-  /* Sombra estándar: sutil y luminosa para el fondo oscuro */
-  --shadow-default: 0 0 10px rgba(255, 255, 255, 0.05), 0 0 20px rgba(255, 255, 255, 0.02);
-  /* Sombra al pasar el ratón: más prominente y luminosa */
-  --shadow-hover: 0 0 15px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.05);
-  /* Sombra con brillo de acento: más intenso en el modo oscuro */
-  --shadow-accent-glow: 0 0 20px rgba(255, 51, 58, 0.7), 0 0 40px rgba(255, 51, 58, 0.5);
-
-  /* 3. TOKENS DE FILTRO/BRILLO (Modo Oscuro) */
-  /* Filtro de brillo para el acento (drop-shadow para texto/SVG) */
-  --filter-glow: drop-shadow(0 0 8px rgba(255, 51, 58, 0.8)) drop-shadow(0 0 15px rgba(255, 51, 58, 0.4));
-  /* Brillo de texto (text-shadow) para el plugin simulado */
-  --filter-glow-text: 0 0 6px rgba(255, 51, 58, 1);
-}
-
-/*
- * ====================================================================
- * ESTILOS BASE Y UTILIDADES GLOBALES
- * ====================================================================
- */
-
-/* Estilos de transición global para suavizar el cambio de tema */
-body {
-  transition: background-color 0.5s ease, color 0.5s ease;
-  background-color: var(--color-base);
-  color: var(--color-content);
-}
-
-/* Ejemplo de componente de "Glassmorphism" (efecto de cristal) */
-.card-glass {
-  @apply bg-white/10 backdrop-blur-3xl shadow-hover border border-white/20 dark:bg-black/10 dark:border-white/5;
-  /* Se podría usar el plugin personalizado .bg-glass-light y .dark:bg-glass-dark */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
